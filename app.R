@@ -107,24 +107,41 @@ ui <- dashboardPage(
     ),
     # Add creators' names at the top of sidebar
     tags$div(
-      style = "padding: 15px; color: white; text-align: center; border-bottom: 1px solid #666;",
+      style = "padding: 15px; color: white; text-align: left; border-bottom: 1px solid #666;",
       tags$h4("Created by:", style = "margin-top: 0;"),
       tags$p("Galileon Destura", style = "margin: 5px 0;"),
       tags$p("Gianfranco Miguel Fernandez", style = "margin: 5px 0;"),
-      tags$p("Disclaimer", style = "margin: 5px 0;"),
-      tags$p("Coordaintes of some disasters may be missing, however they are still included to show more accurate data analytics", style = "margin: 5px 0;")
+      tags$hr(style = "margin: 15px 0; border-color: rgba(255,255,255,0.1);"),
+      tags$div(
+        style = "text-align: left; padding: 0 5px;",
+        tags$h4("Disclaimer", style = "margin-top: 0; font-size: 14px; font-weight: 600;"),
+        tags$p("Coordinates of some disasters may be missing, however they are still included to show more accurate data analytics",
+               style = "margin: 5px 0; font-size: 12px; color: #dfe6e9; line-height: 1.4;"
+        )
+      )
     ),
     sidebarMenu(
+      id = "sidebar",
+      # Add custom CSS for bigger menu items
+      tags$style(HTML("
+        .sidebar-menu > li > a {
+          padding: 15px 15px 15px 15px;
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+        }
+        .sidebar-menu > li > a > i {
+          font-size: 20px;
+          margin-right: 12px;
+        }
+        .sidebar-menu > li.active > a {
+          font-weight: 500;
+        }
+      ")),
       menuItem("Main Map", tabName = "map", icon = icon("globe")),
       menuItem("Statistics", tabName = "stats", icon = icon("chart-bar")),
       menuItem("Data Table", tabName = "table", icon = icon("table"))
     ),
-    
-    # Statistics in sidebar
-    h4("Quick Stats", style = "color: white; margin-left: 15px;"),
-    valueBoxOutput("total_disasters", width = 12),
-    valueBoxOutput("total_deaths", width = 12),
-    valueBoxOutput("total_affected", width = 12),
     
     # Filters
     h4("Filters", style = "color: white; margin-left: 15px;"),
@@ -151,15 +168,130 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
-    tags$head(tags$style(HTML("
-      .content-wrapper, .right-side {
-        background-color: #f4f4f4;
-      }
-    "))),
+    tags$head(
+      tags$link(rel = "stylesheet", href = "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"),
+      tags$style(HTML("
+        /* Modern font and color overrides */
+        body, .content-wrapper, .right-side, h1, h2, h3, h4, h5, h6, p, .sidebar {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+        }
+
+        /* Header bar styling */
+        .skin-blue .main-header .navbar {
+          background-color: #2d3436;
+        }
+
+        .skin-blue .main-header .logo {
+          background-color: #2d3436;
+          font-weight: 500;
+          letter-spacing: 0.3px;
+        }
+
+        .skin-blue .main-header .logo:hover {
+          background-color: #2d3436;
+        }
+
+        /* Sidebar styling */
+        .skin-blue .main-sidebar {
+          background-color: #2d3436;
+        }
+
+        .skin-blue .sidebar a {
+          color: #dfe6e9 !important;
+        }
+
+        .skin-blue .sidebar-menu > li.active > a,
+        .skin-blue .sidebar-menu > li:hover > a {
+          border-left-color: #a8e6cf;
+          background: #222829;
+        }
+
+        /* Box headers */
+        .box.box-primary .box-header {
+          background-color: #2d3436;
+          color: #fff;
+        }
+
+        .box.box-info .box-header {
+          background-color: #2d3436;
+          color: #fff;
+        }
+
+        /* Content area */
+        .content-wrapper, .right-side {
+          background-color: #f8f9fa;
+        }
+
+        /* Box styling */
+        .box {
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+          border-top: none;
+        }
+
+        .box-header {
+          border-radius: 8px 8px 0 0;
+        }
+
+        /* Value boxes */
+        .small-box {
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Filters */
+        .form-control {
+          border-radius: 6px;
+          border: 1px solid #dfe6e9;
+        }
+
+        /* Table styling */
+        .table-striped > tbody > tr:nth-of-type(odd) {
+          background-color: #f8f9fa;
+        }
+
+        .pagination > li > a {
+          border-radius: 4px;
+          margin: 0 2px;
+        }
+
+        /* Dark mode adjustments */
+        .dark-mode .main-header .navbar,
+        .dark-mode .main-header .logo,
+        .dark-mode .main-sidebar {
+          background-color: #1a1a1a !important;
+        }
+
+        .dark-mode .sidebar-menu > li.active > a,
+        .dark-mode .sidebar-menu > li:hover > a {
+          background: #2d2d2d !important;
+        }
+      "))
+    ),
     tabItems(
       # Map tab
       tabItem(
         tabName = "map",
+        fluidRow(
+          div(
+            style = "padding: 20px 15px 10px 15px; margin-bottom: 20px;",
+            h2("GYATT RIZZLER 3000",
+               style = "color: #2c3e50; margin: 0; font-weight: 300; font-size: 32px; text-align: center;"
+            ),
+            p("IM FUCKING DONE TWITHS SHIS DOGFSHIT LANGUAGE BRO NOONE FUCKING USES THIS",
+              style = "color: #7f8c8d; margin: 10px 0 0 0; text-align: center; font-size: 16px;"
+            )
+          )
+        ),
+        fluidRow(
+          # Stats Cards Row
+          div(
+            style = "padding: 0 15px;",
+            column(width = 4, valueBoxOutput("total_disasters", width = NULL)),
+            column(width = 4, valueBoxOutput("total_deaths", width = NULL)),
+            column(width = 4, valueBoxOutput("total_affected", width = NULL))
+          )
+        ),
         fluidRow(
           box(
             title = "Global Disaster Map",
@@ -267,7 +399,7 @@ server <- function(input, output) {
       ),
       subtitle = "Total Disasters",
       icon = icon("exclamation-triangle"),
-      color = "red"
+      color = "purple"
     )
   })
   
@@ -290,7 +422,7 @@ server <- function(input, output) {
       ),
       subtitle = "Total Deaths",
       icon = icon("users"),
-      color = "yellow"
+      color = "maroon"
     )
   })
   
@@ -313,7 +445,7 @@ server <- function(input, output) {
       ),
       subtitle = "People Affected",
       icon = icon("home"),
-      color = "blue"
+      color = "teal"
     )
   })
   
