@@ -9,7 +9,7 @@ library(readxl)
 library(ggplot2)
 
 # Load data
-disaster_data <- read_xlsx("F:/Code/DataSci2/dataset.xlsx")
+disaster_data <- read_xlsx("./dataset.xlsx")
 
 # Clean column names for easier access
 # Note: We'll keep the original names to match the dataset exactly
@@ -140,7 +140,8 @@ ui <- dashboardPage(
       ")),
       menuItem("Main Map", tabName = "map", icon = icon("globe")),
       menuItem("Statistics", tabName = "stats", icon = icon("chart-bar")),
-      menuItem("Data Table", tabName = "table", icon = icon("table"))
+      menuItem("Data Table", tabName = "table", icon = icon("table")),
+      menuItem("About", tabName = "about", icon = icon("info-circle"))
     ),
     
     # Filters
@@ -275,16 +276,16 @@ ui <- dashboardPage(
         fluidRow(
           div(
             style = "padding: 20px 15px 10px 15px; margin-bottom: 20px;",
-            h2("GYATT RIZZLER 3000",
+            h2("CataData",
                style = "color: #2c3e50; margin: 0; font-weight: 300; font-size: 32px; text-align: center;"
             ),
-            p("IM FUCKING DONE TWITHS SHIS DOGFSHIT LANGUAGE BRO NOONE FUCKING USES THIS",
+            p("Disaster data made visible",
               style = "color: #7f8c8d; margin: 10px 0 0 0; text-align: center; font-size: 16px;"
             )
           )
         ),
         fluidRow(
-          # Stats Cards Row
+          # Stats Cards Row 
           div(
             style = "padding: 0 15px;",
             column(width = 4, valueBoxOutput("total_disasters", width = NULL)),
@@ -362,6 +363,62 @@ ui <- dashboardPage(
             DT::dataTableOutput("disaster_table")
           )
         )
+      ),
+      
+      # About tab
+      tabItem(tabName = "about",
+              fluidRow(
+                box(
+                  width = 12,
+                  title = "About CataData",
+                  status = "primary",
+                  solidHeader = TRUE,
+                  tags$div(
+                    style = "padding: 20px;",
+                    tags$h3("Understanding Global Disasters Through Data"),
+                    tags$p("CataData is an interactive dashboard designed to help researchers, policymakers, and the general public understand and analyze global disaster patterns. By visualizing disaster data across different dimensions, it enables users to identify trends, assess impacts, and make data-driven decisions."),
+                    
+                    tags$h4("Key Problems Addressed"),
+                    tags$ul(
+                      tags$li("Identifying high-risk regions and disaster-prone areas"),
+                      tags$li("Analyzing the relationship between disaster types and their impacts"),
+                      tags$li("Tracking changes in disaster frequency and severity over time"),
+                      tags$li("Understanding the human and economic costs of disasters"),
+                      tags$li("Supporting disaster preparedness and response planning")
+                    ),
+                    
+                    tags$h4("Dashboard Components"),
+                    tags$ul(
+                      tags$li(tags$strong("Interactive Map:"), " Visualize disaster locations and their impacts across the globe"),
+                      tags$li(tags$strong("Statistics Panel:"), " Key metrics including total disasters, deaths, and affected populations"),
+                      tags$li(tags$strong("Timeline Analysis:"), " Track disaster patterns and trends over time"),
+                      tags$li(tags$strong("Type Distribution:"), " Analyze the frequency and impact of different disaster types"),
+                      tags$li(tags$strong("Country Impact:"), " Compare disaster effects across different nations"),
+                      tags$li(tags$strong("Detailed Data Table:"), " Access comprehensive disaster information with filtering capabilities")
+                    ),
+                    
+                    tags$h4("Data Source"),
+                    tags$p("The dashboard uses data from EM-DAT (The International Disaster Database), which provides comprehensive information about natural and technological disasters worldwide. The database includes details about disaster types, locations, dates, human impacts, and economic damages."),
+                    tags$p("Data retrieved from:"),
+                    tags$a(href = "https://www.emdat.be/", "EM-DAT Website", target = "_blank"),
+                    
+                    tags$h4("Features"),
+                    tags$ul(
+                      tags$li("Interactive filtering by disaster type, country, and year range"),
+                      tags$li("Dark mode support for better viewing experience"),
+                      tags$li("Responsive design for various screen sizes"),
+                      tags$li("Detailed popups with disaster information"),
+                      tags$li("Exportable data for further analysis")
+                    ),
+                    
+                    tags$h4("Created by"),
+                    tags$p("Galileon Destura and Gianfranco Miguel Fernandez"),
+                    
+                    tags$h4("Disclaimer"),
+                    tags$p("Some disaster coordinates may be missing in the dataset, but these events are still included to provide more accurate data analytics. All monetary values are adjusted for inflation and standardized to USD.")
+                  )
+                )
+              )
       )
     )
   )
